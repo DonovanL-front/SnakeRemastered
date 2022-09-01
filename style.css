@@ -1,3 +1,9 @@
 body { 
     background: #000;
 }
+
+
+.canvas { 
+    width: 60vw;
+    height: 40vh;
+}
