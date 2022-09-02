@@ -8,6 +8,7 @@ window.onload = () => {
   let applee;
   let widthInBlocks = canvasWidth / blockSize;
   let heightInBlocks = canvasHeight / blockSize;
+  let score ;
 
   // Innitialise le canvas
   const init = () => {
@@ -31,6 +32,7 @@ window.onload = () => {
       "right"
     );
     applee = new Apple([10, 10]);
+    score = 0 ; 
     refreshCanvas();
   };
 
@@ -42,8 +44,11 @@ window.onload = () => {
       gameOver();
     } else {
       if(snakee.isEatingApple(applee)) { 
+
         // Le serpent a mangé la pomme this.ateApple prends la valeur true et empèche le this.body.pop() de la function advance()
+        score++; 
         snakee.ateApple = true ; 
+
         do { 
           applee.setNewPosition();
         }  
@@ -52,11 +57,24 @@ window.onload = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       snakee.draw();
       applee.draw();
+      drawScore();
       setTimeout(refreshCanvas, delay);
     }
   };
 
-
+  const drawScore = () => { 
+    ctx.save();
+    ctx.font = "100px sans-serif";
+    ctx.fillStyle = "white" ; 
+    ctx.textAlign = "center" ; 
+    ctx.textBaseline = "middle" ; 
+    ctx.strokeStyle  = "white" ; 
+    ctx.lineWidth = 3;
+    let centerX = canvasWidth / 2 ;
+    let centerY = canvasHeight / 2 ;
+    ctx.strokeText(score.toString(), centerX, centerY) ; 
+    ctx.restore();
+  }
 
   // Déssine un block position x et y
   const drawBlock = (ctx, position) => {
@@ -73,6 +91,7 @@ window.onload = () => {
     ctx.restore();
   }
 
+  // Relance le jeu si GameOver grace a la touche espace 
   const restart = () => { 
     snakee = new Snake(
       [
@@ -83,6 +102,7 @@ window.onload = () => {
       "right"
     );
     applee = new Apple([10, 10]);
+    score = 0; 
     refreshCanvas();
   }
 
@@ -261,7 +281,7 @@ window.onload = () => {
       case "z":
         newDirection = "up";
         break;
-      case "Tab" : 
+      case " " : 
         restart();
         return;
       default:
