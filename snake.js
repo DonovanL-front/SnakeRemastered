@@ -8,8 +8,8 @@ window.onload = () => {
   let applee;
   let widthInBlocks = canvasWidth / blockSize;
   let heightInBlocks = canvasHeight / blockSize;
-  let score ;
-  let timeOut ; 
+  let score;
+  let timeOut;
 
   // Innitialise le canvas
   const init = () => {
@@ -33,7 +33,7 @@ window.onload = () => {
       "right"
     );
     applee = new Apple([10, 10]);
-    score = 0 ; 
+    score = 0;
     refreshCanvas();
   };
 
@@ -44,16 +44,14 @@ window.onload = () => {
       // Game over
       gameOver();
     } else {
-      if(snakee.isEatingApple(applee)) { 
-
+      if (snakee.isEatingApple(applee)) {
         // Le serpent a mangé la pomme this.ateApple prends la valeur true et empèche le this.body.pop() de la function advance()
-        score++; 
-        snakee.ateApple = true ; 
+        score++;
+        snakee.ateApple = true;
 
-        do { 
+        do {
           applee.setNewPosition();
-        }  
-        while (applee.isOnSnake(snakee));
+        } while (applee.isOnSnake(snakee));
       }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       snakee.draw();
@@ -63,19 +61,19 @@ window.onload = () => {
     }
   };
 
-  const drawScore = () => { 
+  const drawScore = () => {
     ctx.save();
     ctx.font = "100px sans-serif";
-    ctx.fillStyle = "white" ; 
-    ctx.textAlign = "center" ; 
-    ctx.textBaseline = "middle" ; 
-    ctx.strokeStyle  = "white" ; 
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.strokeStyle = "white";
     ctx.lineWidth = 3;
-    let centerX = canvasWidth / 2 ;
-    let centerY = canvasHeight / 2 ;
-    ctx.strokeText(score.toString(), centerX, centerY) ; 
+    let centerX = canvasWidth / 2;
+    let centerY = canvasHeight / 2;
+    ctx.strokeText(score.toString(), centerX, centerY);
     ctx.restore();
-  }
+  };
 
   // Déssine un block position x et y
   const drawBlock = (ctx, position) => {
@@ -84,16 +82,15 @@ window.onload = () => {
     ctx.fillRect(x, y, blockSize, blockSize);
   };
 
-
-  const gameOver = () => { 
+  const gameOver = () => {
     ctx.save();
-    ctx.fillText("Game Over", 5 , 15) ; 
-    ctx.fillText("Appuyez sur la touche TAB pour rejouer ", 20 , 35) ; 
+    ctx.fillText("Game Over", 5, 15);
+    ctx.fillText("Appuyez sur la touche TAB pour rejouer ", 20, 35);
     ctx.restore();
-  }
+  };
 
-  // Relance le jeu si GameOver grace a la touche espace 
-  const restart = () => { 
+  // Relance le jeu si GameOver grace a la touche espace
+  const restart = () => {
     snakee = new Snake(
       [
         [6, 4],
@@ -103,10 +100,10 @@ window.onload = () => {
       "right"
     );
     applee = new Apple([10, 10]);
-    score = 0; 
+    score = 0;
     clearTimeout(timeOut);
     refreshCanvas();
-  }
+  };
 
   //   Class constructeur Snake (corps, position , direction , function lui permettant d'avancer , de déssiner son prochain emplacement ect... )
 
@@ -114,7 +111,7 @@ window.onload = () => {
     constructor(body, direction) {
       this.body = body;
       this.direction = direction;
-      this.ateApple = false ;
+      this.ateApple = false;
 
       //   Function draw snake
       this.draw = () => {
@@ -149,13 +146,11 @@ window.onload = () => {
         }
         //   Incrémente la nouvelle position sur l'axe X
         this.body.unshift(nextPosition);
-        //   Enlève la dernière partie de l'array quand la valeur de ateApple = false si le serpent n'a pas mangé de pomme 
-        if(!this.ateApple)
-          this.body.pop();
-          // Sinon reinitialise la valeur de ateApple a false 
-        else
-          this.ateApple = false; 
-        };
+        //   Enlève la dernière partie de l'array quand la valeur de ateApple = false si le serpent n'a pas mangé de pomme
+        if (!this.ateApple) this.body.pop();
+        // Sinon reinitialise la valeur de ateApple a false
+        else this.ateApple = false;
+      };
 
       //Permet une nouvelle direction au serpent
 
@@ -198,11 +193,11 @@ window.onload = () => {
         // vérifie que la tête du serpent ce trouve bien entre les valeurs données au dessus
         let isNotBetweenHorizontalWalls = snakeX < minX || snakeX > maxX;
         let isNotBetweenVerticalWalls = snakeY < minY || snakeY > maxY;
-        // Retourne true si le serpent s'est mangé un mur 
+        // Retourne true si le serpent s'est mangé un mur
         if (isNotBetweenHorizontalWalls || isNotBetweenVerticalWalls) {
           wallColision = true;
         }
-        //  vérifie si la position x de la  tête du serpent ce trouve au même endroit que la position x du corps du serpent et fait le meme test pour l'axe y , si les deux index sont identiques le serpent s'est mordu la queue et la valeur passe a true ; 
+        //  vérifie si la position x de la  tête du serpent ce trouve au même endroit que la position x du corps du serpent et fait le meme test pour l'axe y , si les deux index sont identiques le serpent s'est mordu la queue et la valeur passe a true ;
         for (let i = 0; i < rest.length; i++) {
           if (snakeX === rest[i][0] && snakeY === rest[i][1]) {
             snakeColision = true;
@@ -210,7 +205,7 @@ window.onload = () => {
         }
         return wallColision || snakeColision;
       };
-      // Méthode permettant de vérifier si le serpent a mangé une pomme 
+      // Méthode permettant de vérifier si le serpent a mangé une pomme
       this.isEatingApple = (appleToEat) => {
         let head = this.body[0];
 
@@ -218,14 +213,14 @@ window.onload = () => {
           head[0] === appleToEat.position[0] &&
           head[1] === appleToEat.position[1]
         ) {
-          return true
+          return true;
         } else {
-          return false
-        } ;
+          return false;
+        }
       };
-    };
-  };
-  
+    }
+  }
+
   class Apple {
     constructor(position) {
       this.position = position;
@@ -244,24 +239,27 @@ window.onload = () => {
         ctx.restore();
       };
       // Permet de donner aléatoirement une nouvelle position x et y a la pomme et de que cette position soit un chiffre entier grace a Math.round
-      this.setNewPosition = () => { 
+      this.setNewPosition = () => {
         let newX = Math.round(Math.random() * (widthInBlocks - 1));
         let newY = Math.round(Math.random() * (heightInBlocks - 1));
         this.position = [newX, newY];
       };
-      // Méthode permettant de vérifier si la pomme réaparait sur le serpent 
-      this.isOnSnake =  (snakeToCheck) =>  { 
-        let isOnSnake = false; 
-        for( let i = 0 ; i < snakeToCheck.body.length ; i++) { 
-          if(this.position[0] === snakeToCheck.body[i][0] && this.position[1] === snakeToCheck.body[i][1]) { 
-            isOnSnake = true ; 
-          };
-        };
+      // Méthode permettant de vérifier si la pomme réaparait sur le serpent
+      this.isOnSnake = (snakeToCheck) => {
+        let isOnSnake = false;
+        for (let i = 0; i < snakeToCheck.body.length; i++) {
+          if (
+            this.position[0] === snakeToCheck.body[i][0] &&
+            this.position[1] === snakeToCheck.body[i][1]
+          ) {
+            isOnSnake = true;
+          }
+        }
         return isOnSnake;
       };
-    };
-  };
-  
+    }
+  }
+
   // Récupère les intéractions du client avec le clavier et ajoute une nouvelle direction en fonction appelle la function setDirection de snakee et lui attribue newDirection
   document.addEventListener("keydown", (e) => {
     let key = e.key;
@@ -283,7 +281,7 @@ window.onload = () => {
       case "z":
         newDirection = "up";
         break;
-      case " " : 
+      case " ":
         restart();
         return;
       default:
